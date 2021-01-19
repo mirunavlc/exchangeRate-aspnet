@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loader.cs" />
+    <Compile Include="Printers\ConsolePrinter.cs" />
+    <Compile Include="Printers\IPrinter.cs" />
+    <Compile Include="Printers\MessageBoxPrinter.cs" />
+    <Compile Include="Printers\PrinterFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
