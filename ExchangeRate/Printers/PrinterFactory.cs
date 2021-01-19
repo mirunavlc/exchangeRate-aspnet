@@ -14,43 +14,18 @@ namespace ExchangeRate.Printers.Factory
         MessageBox
     }
 
-    public sealed class PrinterFactory
+    public abstract class PrinterFactory
     {
-        private static readonly Lazy<PrinterFactory> lazy = new Lazy<PrinterFactory>(() => new PrinterFactory());
+        public abstract IPrinter Create(double valueToPrint);
+    }
 
-        public static PrinterFactory Instance { get { return lazy.Value; } }
+    public class ConsoleFactory: PrinterFactory
+    {
+        public override IPrinter Create(double valueToPrint) => new ConsolePrinter(valueToPrint);
+    }
 
-        private PrinterFactory() { }
-
-        private string GetEnumDescription(Enum value)
-        {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
-
-            DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
-
-            if (attributes != null && attributes.Any())
-            {
-                return attributes.First().Description;
-            }
-
-            return value.ToString();
-        }
-
-        public IPrinter Create(string printMode)
-        {
-            IPrinter printer = null;
-
-            if (printMode == GetEnumDescription(PrintModes.Console))
-            {
-                printer = new ConsolePrinter();
-            }
-
-            if (printMode == GetEnumDescription(PrintModes.MessageBox))
-            {
-                printer = new MessageBoxPrinter();
-            }
-
-            return printer;
-        }
+    public class MessageBoxFactory : PrinterFactory
+    {
+        public override IPrinter Create(double valueToPrint) => new MessageBoxPrinter(valueToPrint);
     }
 }

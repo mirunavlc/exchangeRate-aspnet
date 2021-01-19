@@ -1,10 +1,19 @@
-﻿namespace ExchangeRate.Printers.Factory
+﻿using System;
+
+namespace ExchangeRate.Printers.Factory
 {
     public class ConsolePrinter : IPrinter
     {
-        public void Print(string message)
+        private readonly double _value;
+
+        public ConsolePrinter(double value)
         {
-            throw new System.NotImplementedException();
+            _value = value;
+        }
+
+        public void Print()
+        {
+            Console.WriteLine(_value);
         }
     }
 }

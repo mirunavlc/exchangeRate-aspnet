@@ -10,9 +10,19 @@ namespace ExchangeRate
     {
         static void Main(string[] args)
         {
-            var printMode = ConfigurationManager.AppSettings["PrintMode"];
-            IPrinter printer = PrinterFactory.Instance.Create(printMode);
-       
+            var printModeStr = ConfigurationManager.AppSettings["PrintMode"];
+            PrintModes printMode;
+            bool success = Enum.TryParse(printModeStr, out printMode);
+
+            if(!success)
+            {
+                //Log smth
+                return;
+            }
+
+           Printer.InitializeFactories().ExecuteCreation(printMode, 12.35).Print();
+
+           
         }
     }
 }

@@ -1,10 +1,19 @@
-﻿namespace ExchangeRate.Printers.Factory
+﻿using System.Windows.Forms;
+
+namespace ExchangeRate.Printers.Factory
 {
     public class MessageBoxPrinter : IPrinter
     {
-        public void Print(string message)
+        private readonly double _value;
+
+        public MessageBoxPrinter(double value)
         {
-            throw new System.NotImplementedException();
+            _value = value;
+        }
+
+        public void Print()
+        {
+            MessageBox.Show(_value.ToString());
         }
     }
 }
