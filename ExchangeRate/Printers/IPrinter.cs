@@ -3,6 +3,6 @@ namespace ExchangeRate.Printers.Factory
 {
     public interface IPrinter
     {
-        void Print();
+        void Print(string text);
     }
 }

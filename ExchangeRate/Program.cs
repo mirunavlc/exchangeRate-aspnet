@@ -1,8 +1,6 @@
 ﻿using ExchangeRate.Printers.Factory;
 using System;
-using System.ComponentModel;
 using System.Configuration;
-using System.Windows.Forms;
 
 namespace ExchangeRate
 {
@@ -20,9 +18,23 @@ namespace ExchangeRate
                 return;
             }
 
-           Printer.InitializeFactories().ExecuteCreation(printMode, 12.35).Print();
+           Printer.InitializeFactories().ExecuteCreation(printMode).Print(12.35.ToString());
 
-           
+            var link2 = ConfigurationManager.AppSettings["JSONSource2"];
+
+            //
+            //HTtpConnector.Get("link1") -> get property value
+            // la fel pt linkul 2
+            //comparatie, printer.print(val)
+
+            //if (printMode == PrinterFactory.GetEnumDescription(PrinterFactory.PrintModes.Console))
+            //{
+            //    Console.WriteLine("Hello");
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Hello");
+            //}
         }
     }
 }

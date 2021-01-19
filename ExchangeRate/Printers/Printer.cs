@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExchangeRate.Printers.Factory
 {
@@ -23,6 +20,6 @@ namespace ExchangeRate.Printers.Factory
             }
         }
         public static Printer InitializeFactories() => new Printer();
-        public IPrinter ExecuteCreation(PrintModes printMode, double value) => _factories[printMode].Create(value);
+        public IPrinter ExecuteCreation(PrintModes printMode) => _factories[printMode].Create();
     }
 }

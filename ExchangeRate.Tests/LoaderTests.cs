@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Xunit;
+﻿using Xunit;
 
 namespace ExchangeRate.Tests
 {

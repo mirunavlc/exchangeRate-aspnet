@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
+﻿using System.ComponentModel;
 
 namespace ExchangeRate.Printers.Factory
 {
@@ -14,18 +11,18 @@ namespace ExchangeRate.Printers.Factory
         MessageBox
     }
 
-    public abstract class PrinterFactory
+    public interface PrinterFactory
     {
-        public abstract IPrinter Create(double valueToPrint);
+        IPrinter Create();
     }
 
     public class ConsoleFactory: PrinterFactory
     {
-        public override IPrinter Create(double valueToPrint) => new ConsolePrinter(valueToPrint);
+        public IPrinter Create() => new ConsolePrinter();
     }
 
     public class MessageBoxFactory : PrinterFactory
     {
-        public override IPrinter Create(double valueToPrint) => new MessageBoxPrinter(valueToPrint);
+        public IPrinter Create() => new MessageBoxPrinter();
     }
 }
