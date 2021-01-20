@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.SessionState;
 
-namespace MdtDebtManagerIntegration
+namespace ExchangeRate.Helpers
 {
     public class Logger : ILogger
     {

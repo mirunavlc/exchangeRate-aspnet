@@ -1,4 +1,4 @@
-﻿
+﻿using ExchangeRate.Helpers;
 using System;
 using System.IO;
 using System.Net;
@@ -8,6 +8,8 @@ namespace ExchangeRate.Connectors
 {
     public class HttpConnector
     {
+        private readonly ILogger _logger = new Logger("HttpConnector");
+
         private readonly uint _maxAttemptsToConnect;
 
         public HttpConnector(uint maxAttemptsToConnect) => _maxAttemptsToConnect = maxAttemptsToConnect;
@@ -17,8 +19,7 @@ namespace ExchangeRate.Connectors
             await Task.Delay(5000);
             if (retryCount > _maxAttemptsToConnect)
             {
-                //Log(..., uri, LogLevel.ERROR);
-
+                _logger.Warn("Method <Get> exceeded the maximum number of attepts to connect to {0}.", uri);
                 return new Tuple<HttpStatusCode, string>(HttpStatusCode.ServiceUnavailable, null);
             }
 
@@ -43,18 +44,17 @@ namespace ExchangeRate.Connectors
             }
             catch (WebException we)
             {
-                //Log(we.Message, uri, LogLevel.ERROR);
                 var resp = we.Response as HttpWebResponse;
                 if (resp == null)
                 {
-                    //Log(we.Message, uri, LogLevel.WARNING);
+                    _logger.Warn(we.Message + "Method <Get> attepts to connect to {0}.", uri);
                     return await Get(uri, timeoutMs, retryCount + 1);
                 }
                 return new Tuple<HttpStatusCode, string>(resp.StatusCode, null);
             }
             catch (Exception ex)
             {
-                //Log(ex.Message, uri, LogLevel.ERROR);
+                _logger.Warn(ex.Message + "Method <Get> attepts to connect to {0}.", uri);
                 return new Tuple<HttpStatusCode, string>(HttpStatusCode.NotFound, null);
             }
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MdtDebtManagerIntegration
+namespace ExchangeRate.Helpers
 {
     public interface ILogger
     {
