@@ -1,4 +1,5 @@
 ﻿using ExchangeRate.JSONHandlers;
+using System;
 using Xunit;
 
 namespace ExchangeRate.Tests
@@ -28,9 +29,11 @@ namespace ExchangeRate.Tests
                     }
               }";
 
-            var actual = Deserializer.ExtractProperty<decimal>(json, "USDEUR");
+            Exception ex = null;
+            var actual = Deserializer.ExtractProperty<decimal>(json, "USDEUR", out ex);
 
             //Assert
+            Assert.True(ex == null);
             Assert.Equal(expected, actual);
         }
 
@@ -59,9 +62,11 @@ namespace ExchangeRate.Tests
                 }
                }";
 
-            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR");
+            Exception ex = null;
+            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR", out ex);
 
             //Assert
+            Assert.True(ex == null);
             Assert.Equal(expected, actual);
         }
 
@@ -107,13 +112,18 @@ namespace ExchangeRate.Tests
                 }
                }";
 
-            var actualUSDEUR = Deserializer.ExtractProperty<decimal>(jsonUSDEUR, "USDEUR");
-            var actualEUR = Deserializer.ExtractProperty<decimal>(jsonEUR, "EUR");
+            Exception exUSDEUR = null;
+            var actualUSDEUR = Deserializer.ExtractProperty<decimal>(jsonUSDEUR, "USDEUR", out exUSDEUR);
+
+            Exception exEUR = null;
+            var actualEUR = Deserializer.ExtractProperty<decimal>(jsonEUR, "EUR", out exEUR);
 
             var comp = decimal.Compare(actualUSDEUR, actualEUR);
             var actualSmallest = comp > 0 ? actualEUR : actualUSDEUR;
 
             //Assert
+            Assert.True(exUSDEUR == null);
+            Assert.True(exEUR == null);
             Assert.Equal(expectedSmallest, actualSmallest);
         }
 
@@ -127,9 +137,11 @@ namespace ExchangeRate.Tests
             string json =
             @"salut}";
 
-            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR");
+            Exception ex = null;
+            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR", out ex);
 
             //Assert
+            Assert.True(ex != null);
             Assert.Equal(expected, actual);
         }
     }

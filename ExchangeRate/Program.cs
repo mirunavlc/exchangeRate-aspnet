@@ -13,6 +13,8 @@ namespace ExchangeRate
 {
     class Program
     {
+        private static readonly ILogger _logger = new Logger("Program");
+
         static async Task Main(string[] args)
         {
             var printModeStr = ConfigurationManager.AppSettings["PrintMode"];
@@ -21,7 +23,7 @@ namespace ExchangeRate
 
             if (!success)
             {
-                new Logger("HttpConnector").
+                _logger.
                     Error("Method <Main> App.config value={0} for PrintModes in not recognized.", printModeStr);
                 return;
             }
@@ -31,7 +33,7 @@ namespace ExchangeRate
             var tasks = new Dictionary<string, Task<Tuple<System.Net.HttpStatusCode, string>>>();
             foreach (SourcesInstanceElement instance in sourcesConfig.SourcesInstances)
             {
-                var http = new HttpConnector(1);
+                var http = new HttpConnector(maxAttemptsToConnect: 1);
                 tasks.Add(instance.SearchedProperty, http.Get(instance.Link));
             }
 
@@ -39,13 +41,30 @@ namespace ExchangeRate
             foreach (var task in tasks)
             {
                 (var resultCode, var response) = await task.Value;
+
+                if (resultCode != System.Net.HttpStatusCode.OK)
+                {
+                    _logger.
+                         Warn("Method <Main> HttpRequest for property={0} was unresponsive. It will not be considered in the final comparison.", task.Key);
+                    continue;
+                }
                 requestResponses.Add(task.Key, response);
             }
 
             var coinValues = new Dictionary<string, decimal>();
             foreach (var request in requestResponses)
             {
-                coinValues.Add(request.Key, Deserializer.ExtractProperty<decimal>(request.Value, request.Key));
+                Exception ex = null;
+                var coinValue = Deserializer.ExtractProperty<decimal>(request.Value, request.Key, out ex);
+
+                if (ex != null)
+                {
+                    _logger.
+                         Warn("Method <Main> App.config key={0} not found. It will not be considered in the final comparison.", request.Key);
+                    continue;
+                }
+
+                coinValues.Add(request.Key, coinValue);
             }
 
             var minValueForCoin = coinValues.Min(KeyValuePair => KeyValuePair.Value);

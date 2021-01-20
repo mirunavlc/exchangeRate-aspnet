@@ -9,8 +9,9 @@ namespace ExchangeRate.JSONHandlers
     {
         private static readonly ILogger _logger = new Logger("Loader");
 
-        public static T ExtractProperty<T>(string json, string propertyName)
+        public static T ExtractProperty<T>(string json, string propertyName, out Exception exception)
         {
+            exception = null;
             T actual = default(T);
             try
             {
@@ -22,8 +23,9 @@ namespace ExchangeRate.JSONHandlers
                     actual = token.ToObject<T>();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                exception = ex;
                 _logger.Warn(ex.Message + "Method <ExtractProperty> found no property={0} in json={1}.", propertyName, json);
             }
             return actual;
