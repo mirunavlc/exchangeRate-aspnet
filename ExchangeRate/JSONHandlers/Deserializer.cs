@@ -3,9 +3,9 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 
-namespace ExchangeRate
+namespace ExchangeRate.JSONHandlers
 {
-    public class Loader
+    public class Deserializer
     {
         private static readonly ILogger _logger = new Logger("Loader");
 

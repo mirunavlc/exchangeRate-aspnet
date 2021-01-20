@@ -59,7 +59,7 @@
     <Compile Include="Connectors\HttpConnector.cs" />
     <Compile Include="Helpers\ILogger.cs" />
     <Compile Include="Helpers\Logger.cs" />
-    <Compile Include="Loader.cs" />
+    <Compile Include="JSONHandlers\Deserializer.cs" />
     <Compile Include="PrintersConfiguration\SourcesConfig.cs" />
     <Compile Include="PrintersConfiguration\SourcesInstanceCollection.cs" />
     <Compile Include="PrintersConfiguration\SourcesInstanceElement.cs" />

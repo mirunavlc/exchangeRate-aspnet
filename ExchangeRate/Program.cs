@@ -1,5 +1,6 @@
 ﻿using ExchangeRate.Connectors;
 using ExchangeRate.Helpers;
+using ExchangeRate.JSONHandlers;
 using ExchangeRate.Printers.Factory;
 using ExchangeRate.SourcesConfiguration;
 using System;
@@ -44,7 +45,7 @@ namespace ExchangeRate
             var coinValues = new Dictionary<string, decimal>();
             foreach (var request in requestResponses)
             {
-                coinValues.Add(request.Key, Loader.ExtractProperty<decimal>(request.Value, request.Key));
+                coinValues.Add(request.Key, Deserializer.ExtractProperty<decimal>(request.Value, request.Key));
             }
 
             var minValueForCoin = coinValues.Min(KeyValuePair => KeyValuePair.Value);

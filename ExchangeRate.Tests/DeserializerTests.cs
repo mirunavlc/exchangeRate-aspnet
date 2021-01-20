@@ -1,8 +1,9 @@
-﻿using Xunit;
+﻿using ExchangeRate.JSONHandlers;
+using Xunit;
 
 namespace ExchangeRate.Tests
 {
-    public class LoaderTests
+    public class DeserializerTests
     {
         [Fact]
         public void ExtractProperty_USDEURPropertyShouldBeSeparated()
@@ -27,7 +28,7 @@ namespace ExchangeRate.Tests
                     }
               }";
 
-            var actual = Loader.ExtractProperty<decimal>(json, "USDEUR");
+            var actual = Deserializer.ExtractProperty<decimal>(json, "USDEUR");
 
             //Assert
             Assert.Equal(expected, actual);
@@ -58,7 +59,7 @@ namespace ExchangeRate.Tests
                 }
                }";
 
-            var actual = Loader.ExtractProperty<decimal>(json, "EUR");
+            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR");
 
             //Assert
             Assert.Equal(expected, actual);
@@ -106,8 +107,8 @@ namespace ExchangeRate.Tests
                 }
                }";
 
-            var actualUSDEUR = Loader.ExtractProperty<decimal>(jsonUSDEUR, "USDEUR");
-            var actualEUR = Loader.ExtractProperty<decimal>(jsonEUR, "EUR");
+            var actualUSDEUR = Deserializer.ExtractProperty<decimal>(jsonUSDEUR, "USDEUR");
+            var actualEUR = Deserializer.ExtractProperty<decimal>(jsonEUR, "EUR");
 
             var comp = decimal.Compare(actualUSDEUR, actualEUR);
             var actualSmallest = comp > 0 ? actualEUR : actualUSDEUR;
@@ -126,7 +127,7 @@ namespace ExchangeRate.Tests
             string json =
             @"salut}";
 
-            var actual = Loader.ExtractProperty<decimal>(json, "EUR");
+            var actual = Deserializer.ExtractProperty<decimal>(json, "EUR");
 
             //Assert
             Assert.Equal(expected, actual);

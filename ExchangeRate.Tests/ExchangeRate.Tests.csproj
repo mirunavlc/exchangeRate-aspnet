@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpConnectorTests.cs" />
-    <Compile Include="LoaderTests.cs" />
+    <Compile Include="DeserializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
