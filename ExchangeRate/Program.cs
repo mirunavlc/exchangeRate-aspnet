@@ -69,6 +69,7 @@ namespace ExchangeRate
 
             var minValueForCoin = coinValues.Min(KeyValuePair => KeyValuePair.Value);
             Printer.InitializeFactories().ExecuteCreation(printMode).Print(minValueForCoin.ToString());
+            _logger.Trace("Program completed.");
         }
     }
 }
