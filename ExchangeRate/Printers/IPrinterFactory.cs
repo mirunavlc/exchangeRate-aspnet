@@ -11,17 +11,17 @@ namespace ExchangeRate.Printers.Factory
         MessageBox
     }
 
-    public interface PrinterFactory
+    public interface IPrinterFactory
     {
         IPrinter Create();
     }
 
-    public class ConsoleFactory: PrinterFactory
+    public class ConsoleFactory: IPrinterFactory
     {
         public IPrinter Create() => new ConsolePrinter();
     }
 
-    public class MessageBoxFactory : PrinterFactory
+    public class MessageBoxFactory : IPrinterFactory
     {
         public IPrinter Create() => new MessageBoxPrinter();
     }
